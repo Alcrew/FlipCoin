@@ -17,8 +17,6 @@ public class LoadingScreenScript : MonoBehaviour
 
     private void Awake()
     {
-        //slider = gameObject.GetComponent<Slider>();
-        //partSys = GameObject.Find("ProgressBarParticles").GetComponent<ParticleSystem>();
         _loadingPanel.SetActive(true);
     }
 
@@ -27,7 +25,7 @@ public class LoadingScreenScript : MonoBehaviour
         IncrementProgress(1.0f);
         _gamePanel.SetActive(false);
         _tossCointText.SetActive(false);
-        StartCoroutine(loadingCoroutine());
+        StartCoroutine(LoadingCoroutine());
     }
 
     void Update()
@@ -42,16 +40,16 @@ public class LoadingScreenScript : MonoBehaviour
         else
         {
             partSys.Stop();
-            loadingCoroutine();
+            LoadingCoroutine();
         }
 
     }
-    IEnumerator loadingCoroutine()
+    IEnumerator LoadingCoroutine()
     { 
         yield return new WaitForSeconds(3);
         _loadingText.SetActive(false);
         _tossCointText.SetActive(true);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
         _gamePanel.SetActive(true);
         _loadingPanel.SetActive(false);
 

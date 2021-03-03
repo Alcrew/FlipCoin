@@ -12,10 +12,9 @@ public class GameLogic : MonoBehaviour
     [SerializeField] GameObject _gamePanel;
     [SerializeField] Button _headButton;
     [SerializeField] Button _tailButton;
-    [SerializeField] Button _starButton;
+    [SerializeField] Button _historyButton;
     [SerializeField] Button _closeButton;
     [SerializeField] HistoryHandler _historyHandler;
-
     public static int scoreValue = 0;
 
     void Start()
@@ -25,7 +24,7 @@ public class GameLogic : MonoBehaviour
         _historyPanel.SetActive(false);
         _tailButton.onClick.AddListener(OnClickTailButton);
         _headButton.onClick.AddListener(OnClickHeadButton);
-        _starButton.onClick.AddListener(OnClickStar);
+        _historyButton.onClick.AddListener(OnClickStar);
         _closeButton.onClick.AddListener(OnClickCloseHistory);
     }
 
@@ -34,21 +33,19 @@ public class GameLogic : MonoBehaviour
         _score.text = "" + scoreValue;
     }
 
-    int randomGenerator()
+    int RandomGenerator()
     {
         var random = UnityEngine.Random.Range(0, 2);
         return random;
     }
 
-    void showCoin(int coinValue)
+    void ShowCoin(int coinValue)
     {
-        print(coinValue);
         switch (coinValue)
         {
             case 0:
                 _coinTail.SetActive(true);
                 _coinHead.SetActive(false);
-                //Assets.HistoryHandler.AddHistory();
                 break;
             case 1:
                 _coinTail.SetActive(false);
@@ -58,9 +55,8 @@ public class GameLogic : MonoBehaviour
         
     }
 
-    public void checkTailOrHead(int coinValue, int random)
+    public void CheckTailOrHead(int coinValue, int random)
     {
-        //var value = randomGenerator();
         if (coinValue == random)
         {
             _resultText.SetText("100 points to Griffindor!");
@@ -71,28 +67,27 @@ public class GameLogic : MonoBehaviour
             _resultText.SetText("-100 points to Griffindor");
             scoreValue -= 100;
         }
-        //print(value);
-        showCoin(random);
+        ShowCoin(random);
         _historyHandler.AddHistory(new ItemScript.ItemData { random = random, coinValue = coinValue });
     }
 
-    public void checkValueTail()
+    public void CheckValueTail()
     {
-        checkTailOrHead(0, randomGenerator());
+        CheckTailOrHead(0, RandomGenerator());
     }
 
-    public void checkValueHead()
+    public void CheckValueHead()
     {
-        checkTailOrHead(1, randomGenerator());
+        CheckTailOrHead(1, RandomGenerator());
     }
 
     void OnClickHeadButton()
     {
-        checkValueHead();
+        CheckValueHead();
     }
     void OnClickTailButton()
     {
-        checkValueTail();
+        CheckValueTail();
     }
 
     public void OnClickStar()
